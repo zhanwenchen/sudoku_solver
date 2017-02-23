@@ -1,49 +1,40 @@
 # cell.py
 # class definition for a cell on a sudoku board
 
-value_range = range(1, 10)
+
 
 class Cell:
 
-    possible_values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    def __init__(self):
+        self.possible_values = range(1, 10)
 
-    def __init__(self, value):
-        self.setValue(value)
+    def __init__(self, possible_values):
 
-    def setValue(self, possible_values):
-
-        if type(possible_values) is int:
-
-            if possible_values in value_range:
-                self.possible_values = possible_values;
-
-            elif possible_values == 0:
-                self.possible_values = value_range
-
-            else:
-                raise ValueError('trying to set cell to an invalid int %s' \
-                    % possible_values)
-        else:
-            # possible_values is an array
-            for possible_value in possible_values:
-                if possible_value in value_range:
-                    continue
-                else:
-                    raise ValueError('trying to set cell to an invalid array %s' \
-                        % possible_values)
-
+        if possible_values == 0:
+            self.possible_values = range(1, 10)
+        elif possible_values in range(1, 10):
             self.possible_values = possible_values
-
-
-    def getValue(self):
-
-        if self.possible_values:
-            return self.possible_values;
-
-    def check(self, other):
-        if type(self.possible_values) is int:
-            raise ValueError('you cannot check against a set value')
         else:
-            other_value = other.getValue()
+            raise ValueError('trying to set cell to an invalid int %s' \
+                % possible_values)
+
+
+    # check current cell against another and remove the other value from the
+    # possible values of current cell if the other cell is that int.
+    def check(self, other):
+        # print('in check(self = %s, other = %s)' % (self, other))
+        if type(self.possible_values) is int:
+            raise ValueError('current_cell is an int')
+        else:
+            other_value = other.possible_values
             if type(other_value) is int:
-                self.possible_values.remove(other_value)
+                try:
+                    self.possible_values.remove(other_value)
+                    # print('check(): removed %s from current cell. It is now %s. Other value is now %s'\
+                    #     % (other_value, self.possible_values, other_value))
+
+                except:
+                    print('check(): current cell does not contain %s. It is %s. Other value is now %s'\
+                        % (other_value, self.possible_values, other_value))
+            # else:
+            #     print('other contains an array %s' % (other.possible_values))

@@ -20,17 +20,17 @@ board_init_1 = \
      [0, 0, 0, 8, 0, 6, 4, 1, 0], \
      [0, 0, 0, 0, 0, 0, 0, 5, 0]]
 
-e = range(1,10)
+e = range(1,10) # empty becomes [1,2,3,4,5,6,7,8,9]. This saves time and space
 board_expected_1 = \
-    [[e, 9, 1, 2, e, e, e, e, 4], \
-     [8, e, e, 6, e, e, e, e, e], \
-     [e, e, 4, 1, 5, e, e, e, e], \
-     [4, e, e, 9, e, e, 2, e, 8], \
-     [9, 7, e, e, e, e, e, e, 1], \
-     [e, e, 2, 5, 1, e, 6, e, e], \
-     [e, e, e, e, e, e, e, e, e], \
-     [e, e, e, 8, e, 6, 4, 1, e], \
-     [e, e, e, e, e, e, e, 5, e]]
+    [[0, 9, 1, 2, 0, 0, 0, 0, 4], \
+     [8, 0, 0, 6, 0, 0, 0, 0, 0], \
+     [0, 0, 4, 1, 5, 0, 0, 0, 0], \
+     [4, 0, 0, 9, 0, 0, 2, 0, 8], \
+     [9, 7, 0, 0, 0, 0, 0, 0, 1], \
+     [0, 0, 2, 5, 1, 0, 6, 0, 0], \
+     [0, 0, 0, 0, 0, 0, 0, 0, 0], \
+     [0, 0, 0, 8, 0, 6, 4, 1, 0], \
+     [0, 0, 0, 0, 0, 0, 0, 5, 0]]
 
 # Testing __init__
 #
@@ -51,13 +51,28 @@ print('Test 1 passed' if test_init_1 else 'Test 1 failed')
 
 
 # Testing check_square
-
-board_object_1.check_square(0, 0) # expect [0][0] to be [2,3,5,6,7]
+print(board_object_1.arrayfy())
+board_object_1.check_square(0, 0)
+print(board_object_1.arrayfy())
 # print(board_object_1.board[0][0].getValue())
 test_check_square_1 = \
-    board_object_1.board[0][0].getValue() == [2,3,5,6,7]
+    board_object_1.board[0][0].possible_values == [2,3,5,6,7]
 print('Test 2 passed' if test_check_square_1 else 'Test 2 failed')
 
+print(board_object_1.board[6][6].possible_values)
+board_object_1.check_square(6, 6)
+print(board_object_1.board[6][6].possible_values)
+test_check_square_2 = \
+    board_object_1.board[6][6].possible_values == [2,3,6,7,8,9]
+print('Test 3 passed' if test_check_square_2 else 'Test 3 failed')
+
+
 # Testing checkRow
+print(board_object_1.board[5][5].possible_values)
+board_object_1.check_row(5, 5)
+print(board_object_1.board[5][5].possible_values)
+test_check_row_1 = \
+    board_object_1.board[5][5].possible_values == [3,4,7,8,9]
+print('Test 4 passed' if test_check_row_1 else 'Test 4 failed')
 
 # Testing checkColumn
