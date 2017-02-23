@@ -82,3 +82,11 @@ print(board_object_1.board[4][4].possible_values)
 test_check_col_1 = \
     board_object_1.board[4][4].possible_values == [2,3,4,6,7,8,9]
 print('Test 5 passed' if test_check_col_1 else 'Test 5 failed')
+
+# Testing check_all
+print(board_object_1.board[3][4].possible_values)
+board_object_1.check_all_once(3, 4)
+print(board_object_1.board[3][4].possible_values)
+test_check_all_once_1 = \
+    board_object_1.board[3][4].possible_values == [3,6,7]
+print('Test 6 passed' if test_check_all_once_1 else 'Test 6 failed')

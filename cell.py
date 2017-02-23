@@ -31,7 +31,7 @@ class Cell:
                 try:
                     self.possible_values.remove(other_value)
                     # print('check(): removed %s from current cell. It is now %s. Other value is now %s'\
-                    #     % (other_value, self.possible_values, other_value))
+                        # % (other_value, self.possible_values, other_value))
 
                 except:
                     print('check(): current cell does not contain %s. It is %s. Other value is now %s'\
