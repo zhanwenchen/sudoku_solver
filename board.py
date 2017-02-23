@@ -60,6 +60,18 @@ class Board:
             # print('checking current_cell against [%s][%s]' % (other_col[0], other_col[1]))
             current_cell.check(other_cell)
 
+    def check_col(self, row, col):
+        current_cell = self.board[row][col]
+        col_head_indeces = [0,col]
+        all_cells_in_col_indeces = \
+            [[y, col] for y in range(9)]
+
+        for other_col in all_cells_in_col_indeces:
+            # print('other_row is %s. other_col is %s' % (other_row, other_col))
+            other_cell = self.board[other_col[0]][other_col[1]]
+            # print('checking current_cell against [%s][%s]' % (other_col[0], other_col[1]))
+            current_cell.check(other_cell)
+
     def arrayfy(self):
         board_array = [[None for row in range(9)] for col in range(9)]
         for row in range(9):

@@ -76,3 +76,9 @@ test_check_row_1 = \
 print('Test 4 passed' if test_check_row_1 else 'Test 4 failed')
 
 # Testing checkColumn
+print(board_object_1.board[4][4].possible_values)
+board_object_1.check_col(4, 4)
+print(board_object_1.board[4][4].possible_values)
+test_check_col_1 = \
+    board_object_1.board[4][4].possible_values == [2,3,4,6,7,8,9]
+print('Test 5 passed' if test_check_col_1 else 'Test 5 failed')
