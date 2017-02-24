@@ -18,7 +18,6 @@ class Cell:
             raise ValueError('trying to set cell to an invalid int %s' \
                 % possible_values)
 
-
     # check current cell against another and remove the other value from the
     # possible values of current cell if the other cell is that int.
     def check(self, other):

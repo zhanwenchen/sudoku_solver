@@ -52,7 +52,7 @@ print('Test 1 passed' if test_init_1 else 'Test 1 failed')
 
 # Testing check_square
 print(board_object_1.arrayfy())
-board_object_1.check_square(0, 0)
+board_object_1.check_by(0, 0, 'square')
 print(board_object_1.arrayfy())
 # print(board_object_1.board[0][0].getValue())
 test_check_square_1 = \
@@ -60,7 +60,7 @@ test_check_square_1 = \
 print('Test 2 passed' if test_check_square_1 else 'Test 2 failed')
 
 print(board_object_1.board[6][6].possible_values)
-board_object_1.check_square(6, 6)
+board_object_1.check_by(6, 6, 'square')
 print(board_object_1.board[6][6].possible_values)
 test_check_square_2 = \
     board_object_1.board[6][6].possible_values == [2,3,6,7,8,9]
@@ -69,7 +69,7 @@ print('Test 3 passed' if test_check_square_2 else 'Test 3 failed')
 
 # Testing checkRow
 print(board_object_1.board[5][5].possible_values)
-board_object_1.check_row(5, 5)
+board_object_1.check_by(5, 5, 'row')
 print(board_object_1.board[5][5].possible_values)
 test_check_row_1 = \
     board_object_1.board[5][5].possible_values == [3,4,7,8,9]
@@ -77,7 +77,7 @@ print('Test 4 passed' if test_check_row_1 else 'Test 4 failed')
 
 # Testing checkColumn
 print(board_object_1.board[4][4].possible_values)
-board_object_1.check_col(4, 4)
+board_object_1.check_by(4, 4, 'col')
 print(board_object_1.board[4][4].possible_values)
 test_check_col_1 = \
     board_object_1.board[4][4].possible_values == [2,3,4,6,7,8,9]
