@@ -27,13 +27,14 @@ class Cell:
         else:
             other_value = other.possible_values
             if type(other_value) is int:
-                try:
+                if other_value in self.possible_values:
                     self.possible_values.remove(other_value)
-                    # print('check(): removed %s from current cell. It is now %s. Other value is now %s'\
-                        # % (other_value, self.possible_values, other_value))
-
-                except:
-                    print('check(): current cell does not contain %s. It is %s. Other value is now %s'\
-                        % (other_value, self.possible_values, other_value))
-            # else:
-            #     print('other contains an array %s' % (other.possible_values))
+                    if len(self.possible_values) == 1:
+                        self.possible_values = self.possible_values[0]
+                        return
+                return False
+            else:
+                # if the other cell intersects with current cell
+                if not set(self.possible_values).isdisjoint(other_value):
+                    return True
+                # print('other contains an array %s' % (other.possible_values))

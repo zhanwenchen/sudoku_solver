@@ -28,53 +28,94 @@ class Board:
 
         if which == 'square':
             square_corner_indeces = [row // 3 * 3, col // 3 * 3]
-            all_cells_in_square_indeces = \
+            all_cells_indeces = \
                 [[square_corner_indeces[0]+row, square_corner_indeces[1]+col] \
                     for col in range(3) for row in range(3)]
-            return all_cells_in_square_indeces
 
         elif which == 'row':
-            all_cells_in_row_indeces = \
+            all_cells_indeces = \
                 [[row, x] for x in range(9)]
-            return all_cells_in_row_indeces
 
         elif which == 'col':
-            all_cells_in_col_indeces = \
+            all_cells_indeces = \
                 [[y, col] for y in range(9)]
-            return all_cells_in_col_indeces
 
         else:
             raise ValueError('get_indeces(self, row, col, which) must accept \
                 a which argument of \'square\', \'row\', or \'col\'. You gave \
                 %s' % (which))
 
+        return all_cells_indeces
+
     def check_by(self, row, col, which):
         current_cell = self.board[row][col]
-        for other_col in self.get_indeces(row, col, which):
-            other_cell = self.board[other_col[0]][other_col[1]]
-            current_cell.check(other_cell)
-
+        if type(current_cell.possible_values) is list:
+            all_cells_indeces = self.get_indeces(row, col, which)
+            all_cells_indeces.remove([row, col]) # remove current cell
+            for other_cell_indeces in all_cells_indeces:
+                if type(current_cell.possible_values) is list:
+                    other_cell = self.board[other_cell_indeces[0]][other_cell_indeces[1]]
+                    current_cell.check(other_cell)
+                else:
+                    return
 
     def check_all_once(self, row, col):
         self.check_by(row, col, 'square')
         self.check_by(row, col, 'row')
         self.check_by(row, col, 'col')
 
-    def unique_square(self, row, col):
+    # set cell to a value that doesn't exist elsewhere in
+    # its square, column, or row
+    def unique_by(self, row, col, which):
         current_cell = self.board[row][col]
-        # build a count dictionary
+        if type(current_cell.possible_values) is list:
 
-        # for value in current_cell.possible_values:
-            # pass
-            # for indeces in self.get_indeces(row, col, 'square'):
-            #     pass
+            # build a dictionary around current_cell. Look up the count
+            # of each value (key) in current_cell. If the dict doesn't contain it,
+            # bingo!
+            all_cells_indeces = self.get_indeces(row, col, which)
+            all_cells_indeces.remove([row, col]) # exclude current_cell
 
+            sure_count_dict = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0}
+            unsure_count_dict = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0}
 
+            for cell_indeces in all_cells_indeces:
+                cell_value = self.board[cell_indeces[0]][cell_indeces[1]].possible_values
+                if type(cell_value) is int:
+                    sure_count_dict[cell_value] += 1
+                else:
+                    for every_possible_value in cell_value:
+                        unsure_count_dict[every_possible_value] += 1
+
+            for value in current_cell.possible_values:
+                if sure_count_dict[value] == 0 and unsure_count_dict[value] == 0:
+                    current_cell.possible_values = value
+
+    def unique_all_once(self, row, col):
+        self.unique_by(row, col, 'square')
+        self.unique_by(row, col, 'row')
+        self.unique_by(row, col, 'col')
 
     def run_game(self):
-        #
+
+        # while there is any unsure cells
+        while any(type(self.board[row][col].possible_values) is list \
+            for row in range(9) for col in range(9)):
+
+            for row in range(9):
+                for col in range(9):
+                    # current_cell = self.board[row][col]
+                    self.check_all_once(row, col)
+                    self.unique_all_once(row, col)
+        # start with a cell
+        # check a cell by square, row, column once (check_all_once)
+        # check unique for cell
+
+        # go to next cell
+        # repeat
         pass
 
+    # print method
     def arrayfy(self):
         board_array = [[None for row in range(9)] for col in range(9)]
         for row in range(9):
@@ -83,3 +124,14 @@ class Board:
                  if board_array[row][col] == range(1,10):
                      board_array[row][col] = 0
         return board_array
+
+    def __str__(self):
+        board_array = [[None for row in range(9)] for col in range(9)]
+        for row in range(9):
+            for col in range(9):
+                 board_array[row][col] = self.board[row][col].possible_values
+                 if board_array[row][col] == range(1,10):
+                     board_array[row][col] = 0
+        return '\n'.join(str(x) for x in board_array)
+        # return \
+        #     '\n'.join([str(self.board[row][col].possible_values) for col in range(9) for row in range[9]])
